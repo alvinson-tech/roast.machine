@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roasting Machine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">   
+    <style>
+        :root {
+            --main-font: 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--main-font);
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            padding: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-design {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .circle:nth-child(1) {
+            width: 150px;
+            height: 150px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .circle:nth-child(2) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            right: 15%;
+            animation-delay: -2s;
+        }
+
+        .circle:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            bottom: 15%;
+            left: 15%;
+            animation-delay: -4s;
+        }
+
+        .circle:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            bottom: 20%;
+            right: 20%;
+            animation-delay: -6s;
+        }
+
+        .fire-emoji {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.15;
+            filter: drop-shadow(0 0 10px rgba(255, 156, 0, 0.3));
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        .top-text {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 2px 8px rgba(255, 71, 87, 0.1) inset;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .setup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        input[type="text"] {
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) inset;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 2px 12px rgba(255, 71, 87, 0.1);
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff4757, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 71, 87, 0.25);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(255, 71, 87, 0.2);
+        }
+
+        .roast-display {
+            min-height: 150px;
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            line-height: 1.6;
+            display: none;
+            flex-grow: 1;
+        }
+
+        .roast-line {
+            margin-bottom: 1rem;
+            opacity: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #5c6ac4, #4a559c);
+            display: none;
+            margin-top: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .reset-btn.visible {
+            opacity: 1;
+        }
+
+        .reset-btn:disabled {
+            background: linear-gradient(135deg, #666, #555);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        .typing {
+            border-right: 2px solid white;
+            animation: blink 0.75s step-end infinite;
+        }
+
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .audio-control:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .audio-control svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        .end-message {
+            display: none;
+            text-align: center;
+            color: #ff9999;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            position: relative;
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 1;
+        }
+
+        .footer .fire {
+            color: white;
+            display: inline-block;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        /* Add these media queries at the end of your CSS file */
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                width: 95%;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+
+            input[type="text"] {
+                padding: 0.8rem 1.2rem;
+                font-size: 1rem;
+            }
+
+            button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .roast-display {
+                font-size: 1.2rem;
+                min-height: 120px;
+                margin-top: 1.5rem;
+            }
+
+            .circle {
+                /* Make background circles smaller on mobile */
+                transform: scale(0.7);
+            }
+
+            .top-text {
+                font-size: 0.7rem;
+                top: 5px;
+            }
+
+            .footer {
+                font-size: 0.8rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            /* Adjust audio control position for mobile */
+            .audio-control {
+                bottom: 15px;
+                right: 15px;
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        /* For very small screens */
+        @media screen and (max-width: 380px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 1.2rem;
+            }
+
+            .roast-display {
+                font-size: 1.1rem;
+            }
+
+            button {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* For landscape orientation on mobile */
+        @media screen and (max-height: 600px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                margin: 5px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .roast-display {
+                min-height: 100px;
+            }
+
+            .setup-form {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-design">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <span class="fire-emoji">🔥</span>
+        <span class="fire-emoji">🔥</span>
+        <span class="fire-emoji">🔥</span>
+    </div>
+
+    <div class="top-text">alvin.fun</div>
+    
+    <div class="container">
+        <h1>🔥 Roasting Machine 🔥</h1>
+        <div class="setup-form" id="setupForm">
+            <input type="text" id="nameInput" placeholder="Enter Name" required>
+            <button id="roastBtn">Roast Me!</button>
+        </div>
+        <div id="roastDisplay" class="roast-display"></div>
+        <div class="button-container">
+            <button id="resetBtn" class="reset-btn">Roast Again! 🔄</button>
+        </div>
+        <div id="endMessage" class="end-message">
+            That's a lot of roasts to take in! 😅<br>
+            Still need more?
+            Refresh the page and start over!
+        </div>
+    </div>
+
+    <div class="footer">Coded with <span class="fire">🔥</span> by Alvin</div>
+
+    <audio id="bgMusic" loop>
+        <source src="background.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Add audio control button -->
+    <button class="audio-control" id="audioControl" aria-label="Toggle music">
+        <svg id="playIcon" viewBox="0 0 24 24">
+            <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
+        </svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" style="display: none;">
+            <path d="M8 19c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1.9 2 2 2zm6-12v10c0 1.1.9 2 2 2s2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2z"/>
+        </svg>
+    </button>
+
+    <script>
+        const roasts = [
+            ["{name}, you bring everyone so much joy", "when you leave the room!"],
+            ["I'd explain it to you {name}", "but I don't have any crayons!"],
+            ["Hey {name}, I thought of you today", "it reminded me to take out the trash!"],
+            ["{name}, you're like a cloud", "when you disappear, it's a beautiful day!"],
+            ["Some people radiate confidence {name}", "you radiate something else!"],
+            ["Dear {name}, you're so lucky", "your brain cells died of loneliness!"],
+            ["{name}, you have something on your chin", "no, the third one down."],
+            ["{name}, you're like a YouTube ad", "no one asked for you, but here you are."],
+            ["{name}, you're like Wi-Fi", "always weak when needed the most."],
+            ["{name}, you're like a software bug", "everyone wishes you’d just go away."],
+            ["{name}, you're proof evolution can go in reverse", "and stay there."],
+            ["{name}, you're like a black hole", "everything's better without you near it."],
+            ["{name}, your secrets are safe with me", "I never even listen."],
+            ["{name}, you're like a pencil without lead", "totally pointless."],
+            ["{name}, you have something in common with a soap bubble", "you're full of hot air."],
+            ["{name}, you're like a vending machine", "always out of order."],
+            ["{name}, you're like a light bulb", "not very bright."],
+            ["{name}, you're like a bad haircut", "everyone pretends not to notice."],
+            ["{name}, you're like a sandwich without bread", "just a mess."],
+            ["{name}, you're like an off-brand charger", "always disappointing."],
+            ["{name}, you're like a clock with no hands", "you serve no purpose."],
+            ["{name}, you're like a party", "everyone leaves early."],
+            ["{name}, you're like a GPS with no signal", "completely lost."],
+            ["{name}, you're like a door without hinges", "you just don't work."],
+            ["{name}, you're like a seatbelt", "no one wants to use you unless they have to."],
+            ["{name}, you're like a paper straw", "trying, but failing miserably."],
+            ["{name}, you're like a backup plan", "no one actually wants to use you."],
+            ["{name}, you're like an old TV", "all static, no substance."],
+            ["{name}, you're like a deflated balloon", "just sad and useless."],
+            ["{name}, you're like a speed bump", "only slowing everyone down."],
+            ["{name}, you're like a cold pizza", "better when you're gone."],
+            ["{name}, you're like a bad Wi-Fi connection", "completely unreliable."]
+        ];
+
+        let usedRoasts = [];
+        
+        const nameInput = document.getElementById('nameInput');
+        const roastBtn = document.getElementById('roastBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const roastDisplay = document.getElementById('roastDisplay');
+        const setupForm = document.getElementById('setupForm');
+        const endMessage = document.getElementById('endMessage');
+
+        function getRandomRoast() {
+            if (usedRoasts.length === roasts.length) {
+                return null;
+            }
+            
+            let availableRoasts = roasts.filter((_, index) => !usedRoasts.includes(index));
+            let randomIndex = Math.floor(Math.random() * availableRoasts.length);
+            let roastIndex = roasts.indexOf(availableRoasts[randomIndex]);
+            usedRoasts.push(roastIndex);
+            
+            return roasts[roastIndex];
+        }
+
+        async function typeText(element, text) {
+            element.classList.add('typing');
+            element.textContent = '';
+            for (let i = 0; i < text.length; i++) {
+                element.textContent += text[i];
+                await new Promise(resolve => setTimeout(resolve, 40));
+            }
+            element.classList.remove('typing');
+        }
+
+        async function displayRoast() {
+            const name = nameInput.value.trim() || "Anonymous";
+            
+            // Hide both reset button and end message while displaying new roast
+            resetBtn.style.display = 'none';
+            resetBtn.classList.remove('visible');
+            endMessage.style.display = 'none';
+            
+            roastDisplay.style.display = 'block';
+            roastDisplay.textContent = '';
+
+            const randomRoast = getRandomRoast();
+            
+            // Check if we've used all roasts
+            if (!randomRoast) {
+                resetBtn.disabled = true;
+                endMessage.style.display = 'block';
+                return;
+            }
+
+            const firstPart = randomRoast[0].replace("{name}", name);
+            const secondPart = randomRoast[1];
+
+            // First line
+            const firstLine = document.createElement('div');
+            firstLine.className = 'roast-line';
+            roastDisplay.appendChild(firstLine);
+            await typeText(firstLine, firstPart);
+
+            // Second line with same typing animation
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            const secondLine = document.createElement('div');
+            secondLine.className = 'roast-line';
+            roastDisplay.appendChild(secondLine);
+            await typeText(secondLine, secondPart);
+
+            // Add delay before showing reset button
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Show reset button with animation
+            resetBtn.style.display = 'block';
+            // Force a reflow to ensure the transition works
+            resetBtn.offsetHeight;
+            resetBtn.classList.add('visible');
+        }
+
+        roastBtn.addEventListener('click', async () => {
+            if (!nameInput.value.trim()) {
+                alert("Please enter a name!");
+                return;
+            }
+            setupForm.style.display = 'none';
+            await displayRoast();
+        });
+        
+        resetBtn.addEventListener('click', displayRoast);
+
+        const audioControl = document.getElementById('audioControl');
+        const bgMusic = document.getElementById('bgMusic');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        
+        // Set initial volume to 0
+        bgMusic.volume = 0;
+
+        // Function to fade in audio
+        function fadeIn(audio) {
+            let volume = 0;
+            audio.volume = volume;
+            audio.play();
+            
+            const fadeInInterval = setInterval(() => {
+                if (volume < 0.3) {
+                    volume += 0.05;
+                    audio.volume = volume;
+                } else {
+                    clearInterval(fadeInInterval);
+                }
+            }, 100);
+        }
+
+        // Function to fade out audio
+        function fadeOut(audio) {
+            let volume = audio.volume;
+            
+            const fadeOutInterval = setInterval(() => {
+                if (volume > 0.05) {
+                    volume -= 0.05;
+                    audio.volume = volume;
+                } else {
+                    audio.pause();
+                    clearInterval(fadeOutInterval);
+                }
+            }, 100);
+        }
+
+        // Toggle audio play/pause with fade effects
+        audioControl.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                fadeIn(bgMusic);
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            } else {
+                fadeOut(bgMusic);
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+</html>
