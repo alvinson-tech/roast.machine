@@ -326,8 +326,6 @@
             50% { transform: translateY(-3px); }
         }
 
-        /* Add these media queries at the end of your CSS file */
-
         @media screen and (max-width: 768px) {
             .container {
                 padding: 1.5rem;
@@ -357,7 +355,6 @@
             }
 
             .circle {
-                /* Make background circles smaller on mobile */
                 transform: scale(0.7);
             }
 
@@ -372,7 +369,6 @@
                 margin-bottom: 1rem;
             }
 
-            /* Adjust audio control position for mobile */
             .audio-control {
                 bottom: 15px;
                 right: 15px;
@@ -381,7 +377,6 @@
             }
         }
 
-        /* For very small screens */
         @media screen and (max-width: 380px) {
             h1 {
                 font-size: 1.8rem;
@@ -401,7 +396,6 @@
             }
         }
 
-        /* For landscape orientation on mobile */
         @media screen and (max-height: 600px) and (orientation: landscape) {
             body {
                 padding: 10px;
@@ -461,8 +455,7 @@
     <audio id="bgMusic" loop>
         <source src="background.mp3" type="audio/mp3">
     </audio>
-
-    <!-- Add audio control button -->
+    
     <button class="audio-control" id="audioControl" aria-label="Toggle music">
         <svg id="playIcon" viewBox="0 0 24 24">
             <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
@@ -584,7 +577,6 @@
         async function displayRoast() {
             const name = nameInput.value.trim() || "Anonymous";
             
-            // Hide both reset button and end message while displaying new roast
             resetBtn.style.display = 'none';
             resetBtn.classList.remove('visible');
             endMessage.style.display = 'none';
@@ -594,7 +586,6 @@
 
             const randomRoast = getRandomRoast();
             
-            // Check if we've used all roasts
             if (!randomRoast) {
                 resetBtn.disabled = true;
                 endMessage.style.display = 'block';
@@ -604,25 +595,22 @@
             const firstPart = randomRoast[0].replace("{name}", name);
             const secondPart = randomRoast[1];
 
-            // First line
             const firstLine = document.createElement('div');
             firstLine.className = 'roast-line';
             roastDisplay.appendChild(firstLine);
             await typeText(firstLine, firstPart);
 
-            // Second line with same typing animation
             await new Promise(resolve => setTimeout(resolve, 1000));
             const secondLine = document.createElement('div');
             secondLine.className = 'roast-line';
             roastDisplay.appendChild(secondLine);
             await typeText(secondLine, secondPart);
 
-            // Add delay before showing reset button
             await new Promise(resolve => setTimeout(resolve, 2000));
             
-            // Show reset button with animation
+
             resetBtn.style.display = 'block';
-            // Force a reflow to ensure the transition works
+
             resetBtn.offsetHeight;
             resetBtn.classList.add('visible');
         }
@@ -643,10 +631,9 @@
         const playIcon = document.getElementById('playIcon');
         const pauseIcon = document.getElementById('pauseIcon');
         
-        // Set initial volume to 0
+
         bgMusic.volume = 0;
 
-        // Function to fade in audio
         function fadeIn(audio) {
             let volume = 0;
             audio.volume = volume;
@@ -662,7 +649,6 @@
             }, 100);
         }
 
-        // Function to fade out audio
         function fadeOut(audio) {
             let volume = audio.volume;
             
@@ -677,7 +663,6 @@
             }, 100);
         }
 
-        // Toggle audio play/pause with fade effects
         audioControl.addEventListener('click', () => {
             if (bgMusic.paused) {
                 fadeIn(bgMusic);
