@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roasting Machine</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">   
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+    <link rel="shortcut icon" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap" rel="stylesheet">   
     <style>
         :root {
-            --main-font: 'Outfit', sans-serif;
+            --main-font: 'Arvo', serif;
         }
 
         * {
@@ -23,8 +27,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-            padding: 20px;
+            background: linear-gradient(135deg, #cc5b5b, #cc6e42);
+            padding: 20px 20px 100px 20px;
             color: white;
             position: relative;
             overflow: hidden;
@@ -39,16 +43,111 @@
             pointer-events: none;
             z-index: 0;
             background-image: 
-                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 15% 25%, rgba(255, 107, 107, 0.15) 0%, transparent 35%),
+                radial-gradient(circle at 85% 75%, rgba(255, 142, 83, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 70% 20%, rgba(255, 107, 107, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 30% 80%, rgba(255, 142, 83, 0.10) 0%, transparent 35%);
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 32%, rgba(255, 255, 255, 0.1) 34%, transparent 36%),
+                linear-gradient(-45deg, transparent 30%, rgba(255, 255, 255, 0.05) 32%, rgba(255, 255, 255, 0.05) 34%, transparent 36%);
+            background-size: 60px 60px;
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(60px, 60px);
+            }
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.05;
+            animation: floatShape 12s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            top: 20%;
+            left: 10%;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            border-radius: 20% 80% 20% 80%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            top: 60%;
+            right: 15%;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #ff8e53, #ff6b6b);
+            border-radius: 50% 20% 50% 20%;
+            animation-delay: -3s;
+        }
+
+        .shape-3 {
+            bottom: 30%;
+            left: 20%;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+            border-radius: 80% 20% 80% 20%;
+            animation-delay: -6s;
+        }
+
+        .shape-4 {
+            top: 40%;
+            right: 30%;
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(180deg, #ff8e53, #ff6b6b);
+            border-radius: 20% 50% 20% 50%;
+            animation-delay: -9s;
+        }
+
+        @keyframes floatShape {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+            33% {
+                transform: translateY(-15px) rotate(120deg) scale(1.1);
+            }
+            66% {
+                transform: translateY(10px) rotate(240deg) scale(0.9);
+            }
         }
 
         .circle {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.08), rgba(255, 142, 83, 0.05));
             backdrop-filter: blur(2px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.1);
             animation: float 15s infinite ease-in-out;
         }
 
@@ -87,8 +186,8 @@
         .fire-emoji {
             position: absolute;
             font-size: 24px;
-            opacity: 0.15;
-            filter: drop-shadow(0 0 10px rgba(255, 156, 0, 0.3));
+            opacity: 0.08;
+            filter: drop-shadow(0 0 10px rgba(255, 156, 0, 0.2));
             animation: float 10s infinite ease-in-out;
         }
 
@@ -101,31 +200,34 @@
             }
         }
 
-        .top-text {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.6);
-            z-index: 1;
-            letter-spacing: 1px;
-        }
-
         .container {
             position: relative;
             z-index: 1;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
             padding: 2.5rem;
             border-radius: 24px;
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.2),
-                0 2px 8px rgba(255, 71, 87, 0.1) inset;
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 1px 1px rgba(255, 255, 255, 0.1) inset;
             width: 90%;
             max-width: 600px;
+            min-height: 450px;
             text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
         }
 
         .setup-form {
@@ -136,31 +238,31 @@
 
         input[type="text"] {
             padding: 1rem 1.5rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             font-size: 1.1rem;
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             color: white;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) inset;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) inset;
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 2px 12px rgba(255, 71, 87, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 2px 12px rgba(45, 27, 105, 0.2);
         }
 
         input[type="text"]::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         button {
-            background: linear-gradient(135deg, #ff4757, #ff6b6b);
+            background: linear-gradient(135deg, #b84545, #cc5b5b);
             color: white;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 1rem 2rem;
             border-radius: 12px;
             font-size: 1.2rem;
@@ -169,9 +271,13 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.2);
+            box-shadow: 0 4px 12px rgba(184, 69, 69, 0.3);
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .button-container {
@@ -185,12 +291,20 @@
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(255, 71, 87, 0.25);
+            box-shadow: 0 6px 15px rgba(184, 69, 69, 0.4);
+            background: linear-gradient(135deg, #cc5b5b, #d66b6b);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
         button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(255, 71, 87, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
         }
 
         .roast-display {
@@ -204,16 +318,25 @@
 
         .roast-line {
             margin-bottom: 1rem;
+            opacity: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .roast-line.visible {
             opacity: 1;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .reset-btn {
-            background: linear-gradient(135deg, #5c6ac4, #4a559c);
+            background: linear-gradient(135deg, #9e5e46, #b86b42);
             display: none;
             margin-top: 1rem;
             opacity: 0;
             transition: opacity 0.5s ease-in;
+        }
+
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #b86b42, #c27652);
         }
 
         .reset-btn.visible {
@@ -221,7 +344,7 @@
         }
 
         .reset-btn:disabled {
-            background: linear-gradient(135deg, #666, #555);
+            background: rgba(100, 100, 100, 0.5);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
@@ -232,10 +355,10 @@
             margin-bottom: 2rem;
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            background: linear-gradient(45deg, #cc5b5b, #ffb84d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             position: relative;
         }
 
@@ -247,55 +370,13 @@
             transform: translateX(-50%);
             width: 60%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        }
-
-        .typing {
-            border-right: 2px solid white;
-            animation: blink 0.75s step-end infinite;
-        }
-
-        .audio-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        .audio-control:hover {
-            transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .audio-control svg {
-            width: 20px;
-            height: 20px;
-            fill: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s ease;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
         }
 
         .end-message {
             display: none;
             text-align: center;
-            color: #ff9999;
+            color: rgba(255, 255, 255, 0.7);
             font-size: 1.1rem;
             line-height: 1.5;
             position: absolute;
@@ -303,27 +384,46 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 80%;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .footer {
-            position: relative;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
             text-align: center;
-            margin-top: 1.5rem;
             font-size: 1rem;
             color: rgba(255, 255, 255, 0.8);
-            z-index: 1;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .footer .fire {
-            color: white;
-            display: inline-block;
-            animation: bounce 1.5s infinite;
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.6), transparent);
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
+        .footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .footer a:hover {
+            color: #ffb84d;
+            border-bottom-color: rgba(255, 184, 77, 0.5);
         }
 
         @media screen and (max-width: 768px) {
@@ -334,7 +434,7 @@
             }
 
             h1 {
-                font-size: 2rem;
+                font-size: 1.6rem;
                 margin-bottom: 1.5rem;
             }
 
@@ -358,28 +458,15 @@
                 transform: scale(0.7);
             }
 
-            .top-text {
-                font-size: 0.7rem;
-                top: 5px;
-            }
-
             .footer {
-                font-size: 0.8rem;
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-            }
-
-            .audio-control {
-                bottom: 15px;
-                right: 15px;
-                width: 35px;
-                height: 35px;
+                font-size: 0.9rem;
+                padding: 15px;
             }
         }
 
         @media screen and (max-width: 380px) {
             h1 {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
             }
 
             .container {
@@ -417,53 +504,63 @@
             .setup-form {
                 gap: 1rem;
             }
+
+            .footer {
+                bottom: 10px;
+                padding: 12px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="background-design"></div>
+    <div class="background-pattern"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
     <div class="background-design">
         <div class="circle"></div>
         <div class="circle"></div>
         <div class="circle"></div>
         <div class="circle"></div>
-        <span class="fire-emoji">🔥</span>
-        <span class="fire-emoji">🔥</span>
-        <span class="fire-emoji">🔥</span>
     </div>
 
-    <div class="top-text">alvin.fun</div>
-    
     <div class="container">
-        <h1>🔥 Roasting Machine 🔥</h1>
-        <div class="setup-form" id="setupForm">
-            <input type="text" id="nameInput" placeholder="Enter Name" required>
-            <button id="roastBtn">Roast Me!</button>
-        </div>
-        <div id="roastDisplay" class="roast-display"></div>
-        <div class="button-container">
-            <button id="resetBtn" class="reset-btn">Roast Again! 🔄</button>
-        </div>
-        <div id="endMessage" class="end-message">
-            That's a lot of roasts to take in! 😅<br>
-            Still need more?
-            Refresh the page and start over!
+        <div class="container-content">
+            <h1>🔥 Roasting Machine 🔥</h1>
+            <div class="setup-form" id="setupForm">
+                <input type="text" id="nameInput" placeholder="Enter Name" required>
+                <button id="roastBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    Roast Me!
+                </button>
+            </div>
+            <div id="roastDisplay" class="roast-display"></div>
+            <div class="button-container">
+                <button id="resetBtn" class="reset-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                    </svg>
+                    Roast Again!
+                </button>
+            </div>
+            <div id="endMessage" class="end-message">
+                That's a lot of roasts to take in! 😅<br>
+                Still need more?
+                Refresh the page and start over!
+            </div>
         </div>
     </div>
 
-    <div class="footer">Coded with <span class="fire">🔥</span> by Alvin</div>
-
-    <audio id="bgMusic" loop>
-        <source src="background.mp3" type="audio/mp3">
-    </audio>
-    
-    <button class="audio-control" id="audioControl" aria-label="Toggle music">
-        <svg id="playIcon" viewBox="0 0 24 24">
-            <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
-        </svg>
-        <svg id="pauseIcon" viewBox="0 0 24 24" style="display: none;">
-            <path d="M8 19c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1.9 2 2 2zm6-12v10c0 1.1.9 2 2 2s2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2z"/>
-        </svg>
-    </button>
+    <div class="footer">
+        <a href="https://alvinsonny.netlify.app/" target="_blank">alvinunleashed.me</a>
+    </div>
 
     <script>
         const roasts = [
@@ -476,7 +573,7 @@
             ["{name}, you have something on your chin", "no, the third one down."],
             ["{name}, you're like a YouTube ad", "no one asked for you, but here you are."],
             ["{name}, you're like Wi-Fi", "always weak when needed the most."],
-            ["{name}, you're like a software bug", "everyone wishes you’d just go away."],
+            ["{name}, you're like a software bug", "everyone wishes you'd just go away."],
             ["{name}, you're proof evolution can go in reverse", "and stay there."],
             ["{name}, you're like a black hole", "everything's better without you near it."],
             ["{name}, your secrets are safe with me", "I never even listen."],
@@ -543,7 +640,7 @@
         ];
 
         let usedRoasts = [];
-        
+
         const nameInput = document.getElementById('nameInput');
         const roastBtn = document.getElementById('roastBtn');
         const resetBtn = document.getElementById('resetBtn');
@@ -555,37 +652,27 @@
             if (usedRoasts.length === roasts.length) {
                 return null;
             }
-            
+
             let availableRoasts = roasts.filter((_, index) => !usedRoasts.includes(index));
             let randomIndex = Math.floor(Math.random() * availableRoasts.length);
             let roastIndex = roasts.indexOf(availableRoasts[randomIndex]);
             usedRoasts.push(roastIndex);
-            
-            return roasts[roastIndex];
-        }
 
-        async function typeText(element, text) {
-            element.classList.add('typing');
-            element.textContent = '';
-            for (let i = 0; i < text.length; i++) {
-                element.textContent += text[i];
-                await new Promise(resolve => setTimeout(resolve, 40));
-            }
-            element.classList.remove('typing');
+            return roasts[roastIndex];
         }
 
         async function displayRoast() {
             const name = nameInput.value.trim() || "Anonymous";
-            
+
             resetBtn.style.display = 'none';
             resetBtn.classList.remove('visible');
             endMessage.style.display = 'none';
-            
+
             roastDisplay.style.display = 'block';
             roastDisplay.textContent = '';
 
             const randomRoast = getRandomRoast();
-            
+
             if (!randomRoast) {
                 resetBtn.disabled = true;
                 endMessage.style.display = 'block';
@@ -597,20 +684,23 @@
 
             const firstLine = document.createElement('div');
             firstLine.className = 'roast-line';
+            firstLine.textContent = firstPart;
             roastDisplay.appendChild(firstLine);
-            await typeText(firstLine, firstPart);
 
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            setTimeout(() => firstLine.classList.add('visible'), 100);
+
+            await new Promise(resolve => setTimeout(resolve, 1200));
+
             const secondLine = document.createElement('div');
             secondLine.className = 'roast-line';
+            secondLine.textContent = secondPart;
             roastDisplay.appendChild(secondLine);
-            await typeText(secondLine, secondPart);
 
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
+            setTimeout(() => secondLine.classList.add('visible'), 100);
+
+            await new Promise(resolve => setTimeout(resolve, 1500));
 
             resetBtn.style.display = 'block';
-
             resetBtn.offsetHeight;
             resetBtn.classList.add('visible');
         }
@@ -623,58 +713,8 @@
             setupForm.style.display = 'none';
             await displayRoast();
         });
-        
+
         resetBtn.addEventListener('click', displayRoast);
-
-        const audioControl = document.getElementById('audioControl');
-        const bgMusic = document.getElementById('bgMusic');
-        const playIcon = document.getElementById('playIcon');
-        const pauseIcon = document.getElementById('pauseIcon');
-        
-
-        bgMusic.volume = 0;
-
-        function fadeIn(audio) {
-            let volume = 0;
-            audio.volume = volume;
-            audio.play();
-            
-            const fadeInInterval = setInterval(() => {
-                if (volume < 0.3) {
-                    volume += 0.05;
-                    audio.volume = volume;
-                } else {
-                    clearInterval(fadeInInterval);
-                }
-            }, 100);
-        }
-
-        function fadeOut(audio) {
-            let volume = audio.volume;
-            
-            const fadeOutInterval = setInterval(() => {
-                if (volume > 0.05) {
-                    volume -= 0.05;
-                    audio.volume = volume;
-                } else {
-                    audio.pause();
-                    clearInterval(fadeOutInterval);
-                }
-            }, 100);
-        }
-
-        audioControl.addEventListener('click', () => {
-            if (bgMusic.paused) {
-                fadeIn(bgMusic);
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
-            } else {
-                fadeOut(bgMusic);
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
-            }
-        });
-
     </script>
 </body>
 </html>
